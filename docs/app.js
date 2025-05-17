@@ -23,7 +23,7 @@ const updateLocation = (position) => {
     } else {
         marker = L.marker([lat, lon]).addTo(map);
     }
-    map.setView([lat, lon], 16);
+    map.setView([lat, lon], 18);
 }
 
 const handleError = (error) => {
