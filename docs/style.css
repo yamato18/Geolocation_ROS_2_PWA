@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#map { height: 300px; }
+
+.title {
+    font-size: 28px;
+    text-align: center;
+}
+
+.coord-table {
+    display: grid;
+    grid-template-columns: 2fr 4fr 1fr;
+    gap: none;
+    background: #ccc;
+    margin: 8px;
+}
+
+.cell {
+    background: white;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.cell.cell-c {
+    text-align: center;
+}
+
+.cell.cell-r {
+    text-align: right;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>Geolocation ROS 2 PWA</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+              integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+              crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+                crossorigin=""></script>
+    </head>
+    <body>
+        <h1 class="title">Geolocation ROS 2 PWA</h1>
+        <div id="map"></div>
+        <div class="coord-table">
+            <div class="cell cell-c">Latitude</div>
+            <div class="cell cell-r" id="lat-cell">---</div>
+            <div class="cell cell-c">[°]</div>
+
+            <div class="cell cell-c">Longitude</div>
+            <div class="cell cell-r" id="lon-cell">---</div>
+            <div class="cell cell-c">[°]</div>
+
+            <div class="cell cell-c">Altitude</div>
+            <div class="cell cell-r" id="alt-cell">---</div>
+            <div class="cell cell-c">[m]</div>
+        </div>
+        <script type="text/javascript" src="app.js"></script>
+    </body>
+</html>
