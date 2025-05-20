@@ -10,10 +10,10 @@ L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
 let marker = null;
 
 const updateLocation = (position) => {
-    const lat = position.coords.latitude.toFixed(5);
-    const lon = position.coords.longitude.toFixed(5);
+    const lat = parseFloat(position.coords.latitude.toFixed(5));
+    const lon = parseFloat(position.coords.longitude.toFixed(5));
     const alt = position.coords.altitude || 0.0;
-    const fixed_alt = alt.toFixed(2);
+    const fixed_alt = parseFloat(alt.toFixed(2));
 
     if (gpsPublisher) {
         const msg = new ROSLIB.Message({
