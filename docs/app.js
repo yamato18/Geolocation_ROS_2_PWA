@@ -1,3 +1,5 @@
+import ROSLIB from "https://cdn.jsdelivr.net/npm/roslib@1.4.1/src/RosLib.min.js";
+
 // 地図表示　----------------------------------------------------------------------------------------------------
 const map = L.map('map').setView([36.0, 138.0], 5);
 
