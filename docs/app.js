@@ -91,18 +91,18 @@ if (navigator.geolocation) {
 
 // ページ読み込み時
 window.addEventListener("DOMContentLoaded", () => {
-    const protocol = $("protocol").value;
-    const ip = $("ip").value;
-    const port = $("port").value;
-    const ros_domain_id = $("ros_domain_id").value;
+    const protocol = document.getElementById("protocol").value;
+    const ip = document.getElementById("ip").value;
+    const port = document.getElementById("port").value;
+    const ros_domain_id = document.getElementById("ros_domain_id").value;
     connectROS(protocol, ip, port, ros_domain_id);
 });
 
 // 「接続」押下時
-$("connect").addEventListener("click", () => {
-    const protocol = $("protocol").value;
-    const ip = $("ip").value;
-    const port = $("port").value;
-    const ros_domain_id = $("ros_domain_id").value;
+document.getElementById("connect").addEventListener("click", () => {
+    const protocol = document.getElementById("protocol").value;
+    const ip = document.getElementById("ip").value;
+    const port = document.getElementById("port").value;
+    const ros_domain_id = document.getElementById("ros_domain_id").value;
     connectROS(protocol, ip, port, ros_domain_id);
 });
