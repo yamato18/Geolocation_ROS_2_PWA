@@ -9,18 +9,33 @@ L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
 // 位置取得　----------------------------------------------------------------------------------------------------
 let marker = null;
 
-let lat = null;
-let lon = null;
-let alt = null;
-
 const updateLocation = (position) => {
-    lat = position.coords.latitude;
-    lon = position.coords.longitude;
-    alt = position.coords.altitude || 0.0;
+    const lat = position.coords.latitude.toFixed(5);
+    const lon = position.coords.longitude.toFixed(5);
+    const alt = position.coords.altitude.toFixed(2) || 0.0;
 
-    document.getElementById("lat-cell").textContent = lat.toFixed(5);
-    document.getElementById("lon-cell").textContent = lon.toFixed(5);
-    document.getElementById("alt-cell").textContent = alt ? alt.toFixed(2) : "---";
+    if (gpsPublisher) {
+        const msg = new ROSLIB.Message({
+            header: {
+                stamp: { secs: Math.floor(Date.now() / 1000), nsecs: 0 },
+                frame_id: 'gps'
+            },
+            status: { status: 0, service: 1 },
+            latitude: lat,
+            longitude: lon,
+            altitude: alt,
+            position_covariance: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            position_covariance_type: 0
+        });
+
+        gpsPublisher.publish(msg);
+    }
+
+    document.getElementById("lat-cell").textContent = lat;
+    document.getElementById("lon-cell").textContent = lon;
+    document.getElementById("alt-cell").textContent = alt ? alt : "---";
+
+    console.log("DATA", "lat: ", lat, "lon: ", lon, "alt: ", alt);
 
     if (marker) {
         marker.setLatLng([lat, lon]);
@@ -36,6 +51,7 @@ const handleError = (error) => {
 
 // ROS通信　----------------------------------------------------------------------------------------------------
 let ros = null;
+let gpsPublisher = null;
 
 const connectROS = (protocol, ip, port, ros_domain_id) => {
 
@@ -51,26 +67,11 @@ const connectROS = (protocol, ip, port, ros_domain_id) => {
     ros.on("connection", () => {
         console.log("【INFO】Connected to ROS");
 
-        const gpsPublisher = new ROSLIB.Topic({
+        gpsPublisher = new ROSLIB.Topic({
             ros: ros,
             name: "/gps/fix",
             messageType: "sensor_msgs/NavSatFix"
         });
-
-        const msg = new ROSLIB.Message({
-            header: {
-                stamp: { secs: Math.floor(Date.now() / 1000), nsecs: 0 },
-                frame_id: 'gps'
-            },
-            status: { status: 0, service: 1 },
-            latitude: lat,
-            longitude: lon,
-            altitude: alt,
-            position_covariance: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            position_covariance_type: 0
-        });
-
-        gpsPublisher.publish(msg);
     });
 
     ros.on("error", (error) => {
