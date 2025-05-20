@@ -12,7 +12,8 @@ let marker = null;
 const updateLocation = (position) => {
     const lat = position.coords.latitude.toFixed(5);
     const lon = position.coords.longitude.toFixed(5);
-    const alt = position.coords.altitude.toFixed(2) || 0.0;
+    const alt = position.coords.altitude || 0.0;
+    const fixed_alt = alt.toFixed(2);
 
     if (gpsPublisher) {
         const msg = new ROSLIB.Message({
@@ -23,7 +24,7 @@ const updateLocation = (position) => {
             status: { status: 0, service: 1 },
             latitude: lat,
             longitude: lon,
-            altitude: alt,
+            altitude: fixed_alt,
             position_covariance: [0, 0, 0, 0, 0, 0, 0, 0, 0],
             position_covariance_type: 0
         });
@@ -33,7 +34,7 @@ const updateLocation = (position) => {
 
     document.getElementById("lat-cell").textContent = lat;
     document.getElementById("lon-cell").textContent = lon;
-    document.getElementById("alt-cell").textContent = alt ? alt : "---";
+    document.getElementById("alt-cell").textContent = alt ? fixed_alt : "---";
 
     console.log("DATA", "lat: ", lat, "lon: ", lon, "alt: ", alt);
 
