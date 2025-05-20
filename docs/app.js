@@ -9,10 +9,14 @@ L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
 // 位置取得　----------------------------------------------------------------------------------------------------
 let marker = null;
 
+let lat = null;
+let lon = null;
+let alt = null;
+
 const updateLocation = (position) => {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-    const alt = position.coords.altitude || 0.0;
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    alt = position.coords.altitude || 0.0;
 
     document.getElementById("lat-cell").textContent = lat.toFixed(5);
     document.getElementById("lon-cell").textContent = lon.toFixed(5);
@@ -24,15 +28,63 @@ const updateLocation = (position) => {
         marker = L.marker([lat, lon]).addTo(map);
     }
     map.setView([lat, lon], 18);
-}
+};
 
 const handleError = (error) => {
     console.error('【Error】', error);
-}
+};
+
+// ROS通信　----------------------------------------------------------------------------------------------------
+let ros = null;
+
+const connectROS = (protocol, ip, port, ros_domain_id) => {
+
+    if (ros) return;
+
+    ros = new ROSLIB.Ros({
+        url: `${protocol}://${ip}:${port}`,
+        options: {
+            ros_domain_id: ros_domain_id
+        }
+    });
+
+    ros.on("connection", () => {
+        console.log("【INFO】Connected to ROS");
+
+        const gpsPublisher = new ROSLIB.Topic({
+            ros: ros,
+            name: "/gps/fix",
+            messageType: "sensor_msgs/NavSatFix"
+        });
+
+        const msg = new ROSLIB.Message({
+            header: {
+                stamp: { secs: Math.floor(Date.now() / 1000), nsecs: 0 },
+                frame_id: 'gps'
+            },
+            status: { status: 0, service: 1 },
+            latitude: lat,
+            longitude: lon,
+            altitude: alt,
+            position_covariance: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            position_covariance_type: 0
+        });
+
+        gpsPublisher.publish(msg);
+    });
+
+    ros.on("error", (error) => {
+        console.log("【ERROR】", error);
+    });
+
+    ros.on("close", () => {
+        console.log("【INFO】ROS connection closed");
+    });
+};
 
 // 定期実行　----------------------------------------------------------------------------------------------------
 if (navigator.geolocation) {
     setInterval(() => {
         navigator.geolocation.getCurrentPosition(updateLocation, )
-    }, 3000);
+    }, 100);
 }

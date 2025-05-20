@@ -2,6 +2,25 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+input {
+    box-sizing: content-box;
+    height: 20px;
+    vertical-align: middle;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-width: 1px;
+}
+
+select {
+    box-sizing: content-box;
+    height: 24px;
+    vertical-align: middle;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
 #map { height: 300px; }
 
 .title {
@@ -29,4 +48,58 @@ body {
 
 .cell.cell-r {
     text-align: right;
+}
+
+.g-padding {
+    padding: 8px;
+}
+
+.ip-input {
+    font-size: 12px;
+    margin: auto 0 auto 0;
+    vertical-align: middle;
+}
+
+#status {
+    font-size: 12px;
+    margin: auto;
+}
+
+#ip {
+    width: 100px;
+}
+@media (max-width: 960px) {
+    #ip {
+        width: 90px;
+    }
+}
+
+#port {
+    width: 50px;
+}
+@media (max-width: 960px) {
+    #port {
+        width: 30px;
+    }
+}
+
+#ros_domain_id {
+    width: 40px;
+}
+@media (max-width: 960px) {
+    #ros_domain_id {
+        width: 30px;
+    }
+}
+
+.connect {
+    align-items: center;
+}
+
+.mpart {
+    border-width: 0;
+    height: 2px;
+    background-color: #000;
+    content: "";
+    display: block;
 }
