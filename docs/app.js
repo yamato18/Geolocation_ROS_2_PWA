@@ -77,10 +77,12 @@ const connectROS = (protocol, ip, port, ros_domain_id) => {
 
     ros.on("error", (error) => {
         console.log("【ERROR】", error);
+        ros = null;
     });
 
     ros.on("close", () => {
         console.log("【INFO】ROS connection closed");
+        ros = null;
     });
 };
 
