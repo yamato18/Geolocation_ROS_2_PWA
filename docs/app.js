@@ -88,3 +88,21 @@ if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(updateLocation, )
     }, 100);
 }
+
+// ページ読み込み時
+window.addEventListener("DOMContentLoaded", () => {
+    const protocol = $("protocol").value;
+    const ip = $("ip").value;
+    const port = $("port").value;
+    const ros_domain_id = $("ros_domain_id").value;
+    connectROS(protocol, ip, port, ros_domain_id);
+});
+
+// 「接続」押下時
+$("connect").addEventListener("click", () => {
+    const protocol = $("protocol").value;
+    const ip = $("ip").value;
+    const port = $("port").value;
+    const ros_domain_id = $("ros_domain_id").value;
+    connectROS(protocol, ip, port, ros_domain_id);
+});
