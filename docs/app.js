@@ -89,7 +89,7 @@ const connectROS = (protocol, ip, port, ros_domain_id) => {
 // 定期実行　----------------------------------------------------------------------------------------------------
 if (navigator.geolocation) {
     setInterval(() => {
-        navigator.geolocation.getCurrentPosition(updateLocation, )
+        navigator.geolocation.getCurrentPosition(updateLocation, handleError);
     }, 100);
 }
 
